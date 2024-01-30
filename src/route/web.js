@@ -12,6 +12,7 @@ const configWebRoutes = (app) => {
     router.get('/delete-crud/:id', homeController.deleteCRUD)
     // USER CLIENT
     router.post('/sign-in', userController.loginUser)
+    router.post('/get-all-users', userController.getAllUsers)
     return app.use('/api', router);
 }
 

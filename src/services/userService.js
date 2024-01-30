@@ -1,6 +1,7 @@
 import db from '../models/index'
 import bcrypt from 'bcryptjs'
 
+// LOGIN USER
 const loginUser = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -44,7 +45,47 @@ const loginUser = (data) => {
         }
     })
 }
-
+// GET ALL USERS
+const getAllUsers = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let users = '';
+            if (userId && userId === 'ALL') {
+                users = await db.User.findAll({
+                    attributes: {
+                        exclude: [ 'password', 'createdAt', 'updatedAt' ]
+                    }
+                });
+                resolve({
+                    status: 'OK',
+                    message: 'ALL USERS',
+                    data: users
+                })
+            } else if (userId && userId !== 'ALL') {
+                users = await db.User.findOne({
+                    where: { id: userId },
+                    attributes: {
+                        exclude: [ 'password', 'createdAt', 'updatedAt' ]
+                    }
+                })
+                resolve({
+                    status: 'OK',
+                    message: `SINGLE USER ID ${ userId }`,
+                    data: users
+                })
+            } else if (!userId) {
+                resolve({
+                    status: 'OK',
+                    message: 'Missing some parameters',
+                    data: users
+                })
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 module.exports = {
-    loginUser: loginUser
+    loginUser: loginUser,
+    getAllUsers: getAllUsers
 }
