@@ -10,8 +10,8 @@ module.exports = {
             lastName: 'Admin',
             address: 'Hòa Bình',
             gender: 1,
-            typeRole: 'ROLE',
-            keyRole: 'R1',
+            roleId: 'R1',
+            phonenumber: '083111111',
             createdAt: new Date(),
             updatedAt: new Date()
         } ] );

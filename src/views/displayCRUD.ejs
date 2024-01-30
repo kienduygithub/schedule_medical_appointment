@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display All Users</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        .w3-table-all td{
+            vertical-align: middle;
+        }
+        .w3-table-all .table-body .btn{
+            width: 3rem;
+            outline: none;
+            user-select: none;
+            cursor: pointer;
+        }
+        .w3-table-all .table-body .btn a{
+            text-decoration: none;
+        }
+        .w3-container .table-title{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="w3-container">
+        <h3 class="table-title">All Users</h3>
+        <table class="w3-table-all w3-tiny w3-hoverable w3-striped">
+            <thead class="table-head">
+                <tr>
+                    <th>Email</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Address</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                <%for(let i = 0;i < allUsers.length;i++){%>
+                    <tr>
+                        <td><%=allUsers[i].email%></td>
+                        <td><%=allUsers[i].firstName%></td>
+                        <td><%=allUsers[i].lastName%></td>
+                        <td><%=allUsers[i].address%></td>
+                        <td>
+                            <button type="button" class="btn btn-edit">Edit</button>
+                            <button type="button" class="btn btn-delete">
+                                <a href="/api/delete-crud/<%=allUsers[i].id%>">Delete</a>
+                            </button>
+                        </td>
+                    </tr>
+                <%}%>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
