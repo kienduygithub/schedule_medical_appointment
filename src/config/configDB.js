@@ -5,7 +5,8 @@ const { Sequelize } = require('sequelize');
 const sequelize = new Sequelize('schedule_medical_appointment', 'root', null, {
     host: 'localhost',
     dialect: "mysql",
-    logging: false
+    logging: false,
+    timezone: '+07:00'
 });
 
 const initConnectDB = async () => {
