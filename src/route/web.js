@@ -13,6 +13,12 @@ const configWebRoutes = (app) => {
     // USER CLIENT
     router.post('/sign-in', userController.loginUser)
     router.post('/get-all-users', userController.getAllUsers)
+    router.post('/create-new-user', userController.createNewUser)
+    router.put('/edit-user', userController.editUser)
+    router.delete('/delete-user', userController.deleteUser)
+
+    // ROLE ALLCODES
+    router.get('/allcodes/:type', userController.getAllCodes)
     return app.use('/api', router);
 }
 
