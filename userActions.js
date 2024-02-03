@@ -13,12 +13,13 @@ function constructor(props) {
         gender: '',
         roleId: '',
         positionId: '',
-
+        avatar: '',
         genderArr: [],
         positionArr: [],
         userArr: [],
         previewImgURL: '',
         isOpen: false,
+        action: ''
 
     }
 }
@@ -54,7 +55,8 @@ function createNewUser() {
         phonenumber: this.state.phonenumber,
         gender: this.state.gender,
         roleId: this.state.roleId,
-        positionId: this.state.positionId
+        positionId: this.state.positionId,
+        avatar: this.state.avatar
     }); // TẠM THỜI NHƯ THẾ
     setTimeout(() => {
         this.props.getAllUsersStart('ALL')
@@ -279,13 +281,16 @@ const adminReducer = (state = initialState, action) => {
 }
 export default adminReducer
 
-function handleOnchangeImage(event) {
+const handleOnchangeImage = async (event) => {
     let data = event.target.files;
     let file = data[ 0 ];
     if (file) {
         let objectUrl = URL.createObjectURL(file);
+        let base64 = await toBase64(file);
+        console.log('Check base64 image: ', base64);
         this.setState({
-            previewImgURL: objectUrl
+            previewImgURL: objectUrl,
+            avatar: base64
         })
     }
 }
@@ -317,3 +322,46 @@ function openPreviewImage() {
         />
     </div>
 )
+// READ FILE IMAGE TO BASE 64 => Nên viết vào file utils
+const toBase64 = file => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error)
+    })
+}
+
+// KHI NHẬN DỮ LIỆU TỪ SERVER THÌ CÁI ẢNH TRẢ VỀ BUFFER
+// => Edit user
+let imageBase64 = '';
+if (user.image) {
+    imageBase64 = new Buffer(user.image, 'base64').toString('binary');
+}
+this.setState({
+    email: user.email,
+    password: user.password,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    address: user.address,
+    phonenumber: user.phonenumber,
+    gender: user.gender,
+    roleId: user.roleId,
+    positionId: user.positionId,
+    avatar: imageBase64,
+    previewImgURL: imageBase64
+}, () => {
+    console.log('Check base64: ', this.state)
+})
+
+// npm i --save react-markdown-editor-lite@1.3.0
+// npm i --save markdown-it@12.1.0
+
+const handleSaveContentMarkdown = () => {
+    this.props.saveDetailDoctor({
+        contentHTML: this.state.contentHTML,
+        contentMarkdown: this.state.contentMarkdown,
+        description: this.state.description,
+        doctorId: this.state.selectedOption.value
+    })
+} // Dùng ở EDIT MARKDOWN THÔNG TIN BÁC SĨ
